@@ -4,6 +4,7 @@ import * as fal from "@fal-ai/serverless-client";
 import Image from "next/image";
 import { Input } from "./ui/input";
 import { cn } from "@/lib/utils";
+import { Gauge } from "lucide-react";
 
 fal.config({
   proxyUrl: "/api/fal/proxy",
@@ -25,6 +26,7 @@ export default function Draw() {
   const [excalidrawExportFns, setexcalidrawExportFns] = useState<any>(null);
   const [isClient, setIsClient] = useState<boolean>(false);
   const [Comp, setComp] = useState<any>(null);
+  const [inferenceTime, setInferenceTime] = useState<number | null>(null);
 
   useEffect(() => {
     import("@excalidraw/excalidraw").then((comp) => setComp(comp.Excalidraw));
@@ -48,6 +50,7 @@ export default function Draw() {
     onResult(result) {
       if (result.error) return;
       setImage(result.images[0].url);
+      setInferenceTime(result.timings.inference);
     },
   });
 
@@ -85,7 +88,7 @@ export default function Draw() {
         />
       </div>
       <div className="flex w-full md:flex-row flex-col justify-between">
-        <div className="w-full h-[400px]">
+        <div className="w-full h-[400px] border rounded overflow-hidden">
           {isClient && excalidrawExportFns ? (
             <Comp
               excalidrawAPI={(api: any) => setExcalidrawAPI(api)}
@@ -120,7 +123,7 @@ export default function Draw() {
               src={image!}
               width={400}
               height={400}
-              className="w-full h-[400px]"
+              className="w-full rounded h-[400px]"
               alt="image"
             />
           ) : (
@@ -129,6 +132,14 @@ export default function Draw() {
             </span>
           )}
         </div>
+      </div>
+      <div className="text-lg mt-10 hidden md:block md:text-sm absolute md:bottom-16 md:right-16 text-neutral-400">
+        {inferenceTime && (
+          <div className="flex space-x-2 items-end h-full flex-row">
+            <Gauge className="h-5 w-5" />
+            <span>{inferenceTime.toFixed(3)}s</span>
+          </div>
+        )}
       </div>
     </div>
   );
