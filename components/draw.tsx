@@ -24,14 +24,16 @@ export default function Draw() {
   const [_appState, setAppState] = useState<any>(null);
   const [excalidrawExportFns, setexcalidrawExportFns] = useState<any>(null);
   const [isClient, setIsClient] = useState<boolean>(false);
-
   const [Comp, setComp] = useState<any>(null);
+
   useEffect(() => {
     import("@excalidraw/excalidraw").then((comp) => setComp(comp.Excalidraw));
   }, []);
+
   useEffect(() => {
     setIsClient(true);
   }, []);
+
   useEffect(() => {
     import("@excalidraw/excalidraw").then((module) =>
       setexcalidrawExportFns({
@@ -118,7 +120,7 @@ export default function Draw() {
               src={image!}
               width={400}
               height={400}
-              className="w-full max-h-[400px]"
+              className="w-full h-[400px]"
               alt="image"
             />
           ) : (
