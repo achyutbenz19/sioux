@@ -72,7 +72,7 @@ export default function Draw() {
   return (
     <div className="w-full">
       <div className="w-full mt-10 items-center h-full justify-center flex flex-col text-center mb-4">
-        <span className="flex items-center justify-center h-full mb-2">
+        <span className="flex text-lg items-center justify-center h-full mb-2">
           Image prompt
         </span>
         <Input
