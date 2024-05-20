@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import * as fal from "@fal-ai/serverless-client";
 import Image from "next/image";
 import { Input } from "./ui/input";
+import { cn } from "@/lib/utils";
 
 fal.config({
   proxyUrl: "/api/fal/proxy",
@@ -70,7 +71,10 @@ export default function Draw() {
 
   return (
     <div className="w-full">
-      <div className="w-full mt-10 items-center justify-center flex text-center mb-4">
+      <div className="w-full mt-10 items-center h-full justify-center flex flex-col text-center mb-4">
+        <span className="flex items-center justify-center h-full mb-2">
+          Image prompt
+        </span>
         <Input
           className="w-full mb-8 sm:w-[60%] md:w-[50%]"
           placeholder="masterpice, best quality, A cinematic shot of a baby raccoon wearing an intricate italian priest robe"
@@ -108,7 +112,7 @@ export default function Draw() {
             </span>
           )}
         </div>
-        <div className="w-full border-l-2">
+        <div className={cn("w-full", image && "border-l-2")}>
           {image ? (
             <Image
               src={image!}
