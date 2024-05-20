@@ -122,7 +122,7 @@ const Talk = () => {
           <Image
             src={image}
             alt="img"
-            className="h-full w-full"
+            className="h-full rounded w-full"
             height={100}
             width={100}
           />
