@@ -76,7 +76,7 @@ export default function Draw() {
           Image prompt
         </span>
         <Input
-          className="w-full mb-8 sm:w-[60%] md:w-[50%]"
+          className="w-full mb-8 sm:w-[60%] md:w-[70%]"
           placeholder="masterpice, best quality, A cinematic shot of a baby raccoon wearing an intricate italian priest robe"
           value={input}
           onChange={(e) => setInput(e.target.value)}

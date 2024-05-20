@@ -9,9 +9,13 @@ const Home = () => {
         defaultValue="Draw"
         className="w-full sm:w-[80%] mt-8 text-center space-y-6"
       >
-        <TabsList>
-          <TabsTrigger value="Draw">Draw</TabsTrigger>
-          <TabsTrigger value="Talk">Talk</TabsTrigger>
+        <TabsList className="w-full">
+          <TabsTrigger className="w-full" value="Draw">
+            Draw
+          </TabsTrigger>
+          <TabsTrigger className="w-full" value="Talk">
+            Talk
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="Draw">
           <Draw />
