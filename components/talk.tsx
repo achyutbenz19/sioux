@@ -3,8 +3,8 @@ import { Button } from "./ui/button";
 
 const Talk = () => {
   return (
-    <div className="h-[650px] items-center justify-center flex">
-      <div className="flex h-full items-end">
+    <div className="h-[500px] items-center justify-center flex">
+      <div className="absolute bottom-0 mb-16">
         <Button className="py-7 rounded-full">
           <Mic />
         </Button>
