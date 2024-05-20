@@ -1,11 +1,30 @@
 "use client";
-import { Mic } from "lucide-react";
+import { Gauge, Mic } from "lucide-react";
 import { Button } from "./ui/button";
+import * as fal from "@fal-ai/serverless-client";
 import { useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { readStreamableValue, useActions } from "ai/rsc";
 import { motion } from "framer-motion";
 import { AI } from "@/app/actions";
+import Image from "next/image";
+
+function randomSeed() {
+  return Math.floor(Math.random() * 10000000).toFixed(0);
+}
+
+fal.config({
+  proxyUrl: "/api/proxy",
+});
+
+const INPUT_DEFAULTS = {
+  _force_msgpack: new Uint8Array([]),
+  enable_safety_checker: true,
+  image_size: "square_hd",
+  sync_mode: true,
+  num_images: 1,
+  num_inference_steps: "2",
+};
 
 const Talk = () => {
   const { action } = useActions<typeof AI>();
@@ -13,6 +32,36 @@ const Talk = () => {
   const [transcription, setTranscription] = useState("");
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
+  const [image, setImage] = useState<null | string>(null);
+  const [prompt, setPrompt] = useState<string>("");
+  const [inferenceTime, setInferenceTime] = useState<number | null>(null);
+  const timer = useRef<any | undefined>(undefined);
+
+  const connection = fal.realtime.connect("fal-ai/fast-lightning-sdxl", {
+    connectionKey: "lightning-sdxl",
+    throttleInterval: 64,
+    onResult: (result) => {
+      const blob = new Blob([result.images[0].content], { type: "image/jpeg" });
+      setImage(URL.createObjectURL(blob));
+      setInferenceTime(result.timings.inference);
+    },
+  });
+
+  const handleOnChange = async (prompt: string) => {
+    if (timer.current) {
+      clearTimeout(timer.current);
+    }
+    setPrompt(prompt);
+    const input = {
+      ...INPUT_DEFAULTS,
+      prompt: prompt,
+      seed: Number(randomSeed()),
+    };
+    connection.send(input);
+    timer.current = setTimeout(() => {
+      connection.send({ ...input, num_inference_steps: "4" });
+    }, 500);
+  };
 
   const toggleRecording = () => {
     if (recording) {
@@ -47,17 +96,43 @@ const Talk = () => {
         formData.append("audio", audioBlob);
         const streamableValue = await action(formData);
         for await (const message of readStreamableValue<any>(streamableValue)) {
-          if (message && message.transcription)
+          if (message && message.transcription) {
             setTranscription(message.transcription);
+            handleOnChange(message.transcription);
+          }
         }
         chunksRef.current = [];
       });
     }
+    if (typeof window !== "undefined") {
+      window.document.cookie = "fal-app=true; path=/; samesite=strict; secure;";
+    }
+    connection.send({
+      ...INPUT_DEFAULTS,
+      num_inference_steps: "4",
+      prompt: prompt,
+      seed: Number(randomSeed()),
+    });
   };
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <div className="h-[460px] mb-20">hi</div>
+      <div className="mt-6 h-[460px] mb-20">
+        {image && (
+          <Image
+            src={image}
+            alt="img"
+            className="h-full w-full"
+            height={100}
+            width={100}
+          />
+        )}
+        {!image && (
+          <div className="w-full text-lg text-neutral-400 h-full items-center flex justify-center">
+            Start speaking!
+          </div>
+        )}
+      </div>
       <div className="relative flex flex-col items-center">
         {recording && (
           <motion.div
@@ -79,6 +154,14 @@ const Talk = () => {
         >
           <Mic />
         </Button>
+      </div>
+      <div className="text-lg mt-10 hidden md:block md:text-sm absolute md:bottom-16 md:right-16 text-neutral-400">
+        {inferenceTime && (
+          <div className="flex space-x-2 items-end h-full flex-row">
+            <Gauge className="h-5 w-5" />
+            <span>{inferenceTime.toFixed(3)}s</span>
+          </div>
+        )}
       </div>
     </div>
   );
