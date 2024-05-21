@@ -4,7 +4,9 @@ import * as fal from "@fal-ai/serverless-client";
 import Image from "next/image";
 import { Input } from "./ui/input";
 import { cn } from "@/lib/utils";
-import { Gauge } from "lucide-react";
+import { Download, Gauge } from "lucide-react";
+import { downloadFile } from "@/utils/download";
+import { Button } from "./ui/button";
 
 fal.config({
   proxyUrl: "/api/fal/proxy",
@@ -18,8 +20,10 @@ const baseArgs = {
 };
 
 export default function Draw() {
-  const [input, setInput] = useState("A hyper-realistic style of a one-horned rhino in Nepal");
-  const [image, setImage] = useState(null);
+  const [input, setInput] = useState(
+    "A hyper-realistic style of a one-horned rhino in Nepal",
+  );
+  const [image, setImage] = useState<any>(null);
   const [sceneData, setSceneData] = useState<any>(null);
   const [excalidrawAPI, setExcalidrawAPI] = useState<any>(null);
   const [_appState, setAppState] = useState<any>(null);
@@ -124,13 +128,23 @@ export default function Draw() {
           )}
         >
           {image ? (
-            <Image
-              src={image!}
-              width={400}
-              height={400}
-              className="w-full object-fill rounded h-[400px]"
-              alt="image"
-            />
+            <div className="relative group">
+              <Image
+                draggable={false}
+                src={image!}
+                width={400}
+                height={400}
+                className="w-full object-fill rounded h-[400px]"
+                alt="image"
+              />
+              <Button
+                onClick={() => downloadFile(image, "sioux.png")}
+                size="sm"
+                className="absolute text-black top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
+              >
+                <Download />
+              </Button>
+            </div>
           ) : (
             <span className="h-full items-center text-neutral-400 justify-center flex">
               Start drawing!

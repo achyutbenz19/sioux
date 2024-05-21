@@ -1,5 +1,5 @@
 "use client";
-import { Gauge, Mic } from "lucide-react";
+import { Download, Gauge, Mic } from "lucide-react";
 import { Button } from "./ui/button";
 import * as fal from "@fal-ai/serverless-client";
 import { useRef, useState } from "react";
@@ -8,6 +8,7 @@ import { readStreamableValue, useActions } from "ai/rsc";
 import { motion } from "framer-motion";
 import { AI } from "@/app/actions";
 import Image from "next/image";
+import { downloadFile } from "@/utils/download";
 
 function randomSeed() {
   return Math.floor(Math.random() * 10000000).toFixed(0);
@@ -117,18 +118,27 @@ const Talk = () => {
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <div className="mt-6 h-[400px] mb-20">
+      <div className="mt-6 mb-20">
         {image && (
-          <Image
-            src={image}
-            alt="img"
-            className="h-full rounded w-full"
-            height={100}
-            width={100}
-          />
+          <div className="relative group h-[400px]">
+            <Image
+              src={image}
+              alt="img"
+              className="h-full rounded w-full"
+              height={100}
+              width={100}
+            />
+            <Button
+              onClick={() => downloadFile(image, "sioux.png")}
+              size="sm"
+              className="absolute text-black top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
+            >
+              <Download />
+            </Button>
+          </div>
         )}
         {!image && (
-          <div className="w-full text-lg text-neutral-400 h-full items-center flex justify-center">
+          <div className="w-full text-lg text-neutral-400 h-[400px] items-center flex justify-center">
             Start speaking!
           </div>
         )}
