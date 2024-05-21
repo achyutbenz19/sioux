@@ -9,6 +9,18 @@ import Header from "@/components/header";
 export const metadata: Metadata = {
   title: "Sioux",
   description: "lightning ⚡",
+  metadataBase: new URL("https://sioux.vercel.app/"),
+  icons: {
+    icon: [
+      {
+        url: "/logo.png",
+        href: "/logo.png",
+      },
+    ],
+  },
+  openGraph: {
+    images: "/opengraph-image.svg",
+  },
 };
 
 export default function RootLayout({
