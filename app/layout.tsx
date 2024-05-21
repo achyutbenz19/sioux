@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     ],
   },
   openGraph: {
-    images: "/opengraph-image.svg",
+    images: "/opengraph-image.png",
   },
 };
 
