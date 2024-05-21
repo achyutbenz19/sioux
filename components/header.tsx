@@ -6,7 +6,7 @@ const Header = () => {
         className="text-xl cursor-pointer"
         onClick={() => window.location.replace("/")}
       >
-        sioux
+        Sioux ⚡
       </span>
     </div>
   );
