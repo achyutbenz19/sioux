@@ -18,7 +18,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={GeistSans.className}>
+      <body
+        className={`${GeistSans.className} selection:bg-primary selection:text-black`}
+      >
         <AI>
           <ThemeProvider
             attribute="class"

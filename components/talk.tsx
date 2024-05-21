@@ -149,7 +149,7 @@ const Talk = () => {
           onClick={toggleRecording}
           className={cn(
             "flex items-center py-7 border transition-all duration-300 rounded-full justify-center w-16 h-16",
-            recording && "bg-accent",
+            recording && "bg-primary/50",
           )}
         >
           <Mic />
