@@ -4,6 +4,7 @@ import { GeistSans } from "geist/font/sans";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { AI } from "./actions";
 import { Analytics } from "@vercel/analytics/react";
+import Header from "@/components/header";
 
 export const metadata: Metadata = {
   title: "Sioux",
@@ -25,6 +26,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+            <Header />
             {children}
             <Analytics />
           </ThemeProvider>

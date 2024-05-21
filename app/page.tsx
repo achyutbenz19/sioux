@@ -4,7 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Home = () => {
   return (
-    <main className="flex p-6 flex-col items-center mt-10 justify-center">
+    <main className="flex p-6 flex-col items-center md:mt-16 mt-10 justify-center">
       <Tabs
         defaultValue="Draw"
         className="w-full sm:w-[80%] mt-8 text-center space-y-6"
