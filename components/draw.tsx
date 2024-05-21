@@ -18,7 +18,7 @@ const baseArgs = {
 };
 
 export default function Draw() {
-  const [input, setInput] = useState("A hyper-realistic, modern art style");
+  const [input, setInput] = useState("A hyper-realistic style of a one-horned rhino in Nepal");
   const [image, setImage] = useState(null);
   const [sceneData, setSceneData] = useState<any>(null);
   const [excalidrawAPI, setExcalidrawAPI] = useState<any>(null);
