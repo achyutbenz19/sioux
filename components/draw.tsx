@@ -117,7 +117,12 @@ export default function Draw() {
             </span>
           )}
         </div>
-        <div className={cn("w-full", image && "md:border-l-2 md:border-t-0 border-t-2")}>
+        <div
+          className={cn(
+            "w-full",
+            image && "md:border-l-2 md:border-t-0 border-t-2",
+          )}
+        >
           {image ? (
             <Image
               src={image!}
