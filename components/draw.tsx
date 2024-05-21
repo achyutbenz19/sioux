@@ -18,7 +18,7 @@ const baseArgs = {
 };
 
 export default function Draw() {
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState("A hyper-realistic, modern art style");
   const [image, setImage] = useState(null);
   const [sceneData, setSceneData] = useState<any>(null);
   const [excalidrawAPI, setExcalidrawAPI] = useState<any>(null);
@@ -117,13 +117,13 @@ export default function Draw() {
             </span>
           )}
         </div>
-        <div className={cn("w-full", image && "border-l-2")}>
+        <div className={cn("w-full", image && "md:border-l-2 md:border-t-0 border-t-2")}>
           {image ? (
             <Image
               src={image!}
               width={400}
               height={400}
-              className="w-full rounded h-[400px]"
+              className="w-full object-fill rounded h-[400px]"
               alt="image"
             />
           ) : (

@@ -117,7 +117,7 @@ const Talk = () => {
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <div className="mt-6 h-[460px] mb-20">
+      <div className="mt-6 h-[400px] mb-20">
         {image && (
           <Image
             src={image}
