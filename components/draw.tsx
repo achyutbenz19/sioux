@@ -21,7 +21,7 @@ const baseArgs = {
 
 export default function Draw() {
   const [input, setInput] = useState(
-    "A hyper-realistic style of a one-horned rhino in Nepal",
+    "A hyper-realistic cinematic art style",
   );
   const [image, setImage] = useState<any>(null);
   const [sceneData, setSceneData] = useState<any>(null);
